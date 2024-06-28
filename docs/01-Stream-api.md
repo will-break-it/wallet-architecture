@@ -3,7 +3,7 @@
 The following serves as introduction to the wallet-optimized, event-driven API using **websockets**.
 This document outlines the structure and common elements of messages that clients may process.
 
-> ℹ️ **Remark**
+> ℹ️ **Remark**<br />
 > New message types can be added at any time.
 > Clients are expected to ignore messages they do not support.
 

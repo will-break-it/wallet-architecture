@@ -21,7 +21,7 @@ Clients should send heartbeat messages every 30 seconds to maintain the connecti
 
 The server does not send a response to heartbeat messages. It simply resets the connection's inactivity timer upon receipt.
 
-> ℹ️ **Remark**
+> ℹ️ **Remark**<br />
 > If the server doesn't receive a heartbeat message within 90 seconds of the last received message (of any type), it may terminate the connection.
 
 Clients should implement error handling to re-establish the connection if it's terminated.
