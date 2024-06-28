@@ -16,6 +16,7 @@ This index categorizes supported message types in our event-driven communication
 Server-sent message define a set of common fields to support multichain capabilities and easier extensability. Moreover, some message fields vary depending on the blockchain, for example the `transaction` message.
 
 - [`transaction`](./server/transaction.md): A new transaction
+- [`tip`](./server/tip.md): A new block was appended
 
 ## Multichain Support
 
