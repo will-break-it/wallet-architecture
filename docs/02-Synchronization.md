@@ -1,3 +1,3 @@
 # Synchronization
 
-> ToDo
+![Sequence Diagram Synchronization](./02-Synchronization.svg)

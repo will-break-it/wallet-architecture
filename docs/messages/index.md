@@ -13,7 +13,18 @@ This index categorizes supported message types in our event-driven communication
 
 # Server Messages
 
-Server-sent message define a set of common fields to support multichain capabilities and easier extensability. Moreover, some message fields vary depending on the blockchain, for example the `transaction` message.
+Server-sent messages are sent either **periodically** or **by trigger** due to newly available, relevant data for a specific client.
+Any server-sent message is enriched with any data that can be tied to the current chain's point in time. This may include:
+
+  - protocol parameters have changed:<br />
+  → message is enriched by adding a unique top level key referencing the the current epoch's protocol parameters
+  - a new epoch started:<br />
+  → message is enriched with wallet's staking rewards
+  - a new era started:<br />
+  → message is enriched with era summary
+  - ...
+
+## List of Server Message Partials
 
 - [`transaction`](./server/transaction.md): A new transaction
 - [`tip`](./server/tip.md): A new block was appended
@@ -38,7 +49,7 @@ A client may define multiple [`subscription`](./messages/client/subscribe.md) ob
 
 ## Event Sequencing and Synchronization
 
-Each event server-sent message includes a `point` object. This object is crucial for tracking a client's progress in synchronizing with the current tip of a **specific** blockchain.
+As described on a high-level before, each event server-sent message includes a `point` object. This object is crucial for tracking a client's progress in synchronizing with the current tip of a **specific** blockchain.
 This type may vary depending on the blockchain, the following shows a few examples:
 
 ## Schema
