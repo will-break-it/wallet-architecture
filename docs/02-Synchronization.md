@@ -1,3 +1,3 @@
 # Synchronization
 
-![Sequence Diagram Synchronization](./02-Synchronization.svg)
+![Sequence Diagram Synchronization](./02-Synchronization-Sequence.svg)

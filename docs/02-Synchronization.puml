@@ -1,0 +1,88 @@
+@startuml Synchronization-Sequence
+
+actor Wallet
+participant Server
+database DB
+participant Projector
+participant "Cardano Node" as Node
+queue "Task Queue" as Queue
+participant "Projection Worker" as Worker
+
+group Wallet Connects
+  Wallet -> Server: connect(credentials, points: PointOrOrigin[])
+  Server -> DB: findIntersection(points)
+  DB -> Server: response: intersection point or genesis
+
+  alt if point is genesis
+    Server -> Wallet: <event> {network genesis parameters}
+  end
+
+  group Catch-up Phase: Get intersection events 
+    group protocol parameters
+      Server -> DB: protocolParametersSince(point)
+      DB --> Server: response: protocolParameters: [protocol-parameters]
+    end
+
+    group era summaries
+      Server -> DB: eraSummariesSince(point)
+      DB -> Server: response: eraSummaries: [era-summaries]
+    end
+    
+    group epoch summaries
+      group stake summaries
+        Server -> DB: stakeSummariesSince(point)
+        DB -> Server: response: stakeSummaries: [stake-summary]
+      end
+      group supply summaries
+        Server -> DB: supplySummariesSince(point)
+        DB -> Server: response: suppleSummaries: [supply-summary]
+      end
+      group rewards
+        Server -> DB: rewardsSince(point, credentials)
+        DB --> Server: response: rewardsSincePoint: [rewards]
+      end
+    end
+
+    group transactions
+      Server -> DB: transactionsSince(point, credentials)
+      DB --> Server: response: transactionsSincePoint: [transaction + block header]
+
+      alt if transaction contains native assets
+        Server -> DB: assetInfo(assetId[])
+        DB -> Server: response: assetInfo: [asset meta data]
+        Server -> Server: Enrich transaction messages\nwith native asset meta data.
+      end
+    end
+  
+    Server -> Server: Merge, sort responses by point.
+    Server -> Wallet: <event> \n{\n\t[transactions + block header],\n\t[rewards],\n\t[epoch summary],\n\t[era summary],\n\t[protocol parameters]\n}
+  end
+
+end
+
+group Wallet Synchronization
+  Node -> Projector: <event> Chain Sync
+  Projector -> DB: write & notify(extendedBlock)
+  DB -> Server: <event> notify(extendedBlock)
+
+  loop For each connected client
+    alt if block tx is relevant for client:
+      Server -> Server: Enrich tx message\n(tip, pp etc.)
+      Server -> Wallet: <event>  { [transaction + block header] }
+    else if minimum tip threshold interval passed:
+      Server -> Wallet: <event> { tip }
+    end
+  end
+end
+
+group Asynchronous projection
+  Node -> Projector: <event> Chain Sync
+  Projector -> Queue: insert or delete task
+  Worker -> Queue: getTask()
+  Queue --> Worker: return task
+  Worker -> DB: insert & notify
+  DB -> Server: <event> {metadata: {pool:{id, metadata}}
+  Server -> Wallet: <event> {metadata: {pool:{id, metadata}}
+end
+
+@enduml
