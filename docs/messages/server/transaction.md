@@ -2,9 +2,6 @@
 
 The server sends this message to a client when it identifies a transaction as relevant. This enables the client to construct the transaction history, derive its balance, and, if applicable, determine its UTxO set.
 
-> ℹ️ **Remark**<br />
-> Transaction hashes, output addresses, and policy IDs are base64-encoded to optimize for space efficiency, as base64 encoding increases data size by approximately 33-37% compared to the original binary data. Base64 is more efficient in terms of encoding density.
-
 ## TODO: To be defined further
 
 ## Schema
