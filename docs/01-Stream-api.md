@@ -126,3 +126,12 @@ More information can be found [here](./messages/client/heartbeat.md).
 API authentication in its first version is implicitly handled by the client specifying the topics of interest in their initial [`subscribe`](./messages/client/subscribe.md) message. This message must include a **signature** that verifies the ownership of the provided credentials, which are used to filter block transactions.
 
 More information can be found [here](./messages/client/subscribe.md).
+
+## Other Topics
+
+[1. Message Type Index](./messages/index.md)
+
+[2. Synchronization](./02-Synchronization.md)
+
+[3. Encoding Standard](./03-Encoding.md)
+
