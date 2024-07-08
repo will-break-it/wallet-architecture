@@ -37,17 +37,17 @@ input index of the respective transaction:
 ```json
 {
   "transactions": [
-    { /* transaction cbor 1 */ },
-    { /* transaction cbor 2 */ },
+    /* transaction cbor hex 1 */,
+    /* transaction cbor hex 2 */,
     /* ... */
   ],
   "resolvedInputs": [
     [
-      { /* transaction 1 resolved input 1 cbor */ },
-      { /* transaction 1 resolved input 2 cbor */ }
+      /* transaction 1 resolved input 1 cbor hex */,
+      /* transaction 1 resolved input 2 cbor hex */
     ],
     [
-      { /* transaction 2 resolved input 1 cbor */ }
+      /* transaction 2 resolved input 1 cbor hex */
     ]
   ],
   "point": {
