@@ -4,7 +4,7 @@ The server broadcasts new, relevant transaction data to connected clients using 
 
 ## Transaction Processing and Enrichment/ Hydration
 
-As new transactions are processed, filtered, and deemed relevant for a particular connected client, the server publishes a new message containing the transaction(s). In many blockchain systems, on-chain transactions often contain references to other transactions or metadata hashes, necessitating additional context for full comprehension.
+As new transactions are processed, filtered, and deemed relevant for a particular connected client, the server publishes a new message containing the transaction(s). In many blockchain systems, on-chain transactions often contain references to other transactions or metadata hashes, necessitating additional context.
 
 ## Hydration Process
 
