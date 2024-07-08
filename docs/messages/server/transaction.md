@@ -1,215 +1,68 @@
-# Server Transaction Message
+# Server Transaction Message Partial
 
-The server sends this message to a client when it identifies a transaction as relevant. This enables the client to construct the transaction history, derive its balance, and, if applicable, determine its UTxO set.
+The server broadcasts new, relevant transaction data to connected clients using chain-specific encoding protocols. This approach closely mimics the native blockchain synchronization process, ensuring compatibility and efficiency. By adhering to each blockchain's native encoding, the system maintains consistency with existing communication protocols.
 
-## TODO: To be defined further
+## Transaction Processing and Enrichment/ Hydration
 
-## Schema
+As new transactions are processed, filtered, and deemed relevant for a particular connected client, the server publishes a new message containing the transaction(s). In many blockchain systems, on-chain transactions often contain references to other transactions or metadata hashes, necessitating additional context for full comprehension.
+
+## Hydration Process
+
+The term "hydrated" refers to the process of enriching a message with additional data. This enrichment simplifies the client's processing and reduces the need for further requests to derive its wallet state. The hydration process can involve:
+
+- Resolving transaction inputs (transaction output references)
+- Adding asset metadata from off-chain data sources
+- Incorporating other off-chain metadata, such as:
+- Certificate information
+- Stake pool metadata
+- Smart contract data
+- ...
+
+The hydration process is achieved by adding top level keys to the message that follow a specific structure correlating to transactions that were passed as part of the message.
+
+#### Resolved transaction inputs
+
+A transaction input of a UTxO blockchain also referred to as transaction output reference usually follows a structure like this:
 
 ```json
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "type": {
-      "type": "string",
-      "enum": ["transaction"]
-    },
-    "point": {
-      "type": "object",
-      "properties": {
-        "hash": {
-          "type": "string",
-          "enum": ["transaction"]
-        },
-        "slot": {
-          "type": "integer"
-        }
-      },
-      "required": ["hash", "slot"]
-    },
-    "chain": {
-      "type": "object",
-      "properties": {
-        "blockchain": {
-          "type": "string"
-        },
-        "network": {
-          "type": "string"
-        }
-      },
-      "required": ["blockchain", "network"]
-    },
-    "record": {
-      "type": "object",
-      "properties": {
-        "auxiliary": {
-          "type": "object"
-        },
-        "collateral": {
-          "type": "object"
-        },
-        "fee": {
-          "type": "string"
-        },
-        "hash": {
-          "type": "string"
-        },
-        "inputs": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "outputIndex": {
-                "type": "integer"
-              },
-              "txHash": {
-                "type": "string"
-              }
-            },
-            "required": ["outputIndex", "txHash"]
-          }
-        },
-        "outputs": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "address": {
-                "type": "string"
-              },
-              "assets": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "assets": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "outputCoin": {
-                            "type": "string"
-                          }
-                        },
-                        "required": ["name", "outputCoin"]
-                      }
-                    },
-                    "policyId": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["assets", "policyId"]
-                }
-              },
-              "coin": {
-                "type": "string"
-              }
-            },
-            "required": ["address", "assets", "coin"]
-          }
-        },
-        "successful": {
-          "type": "boolean"
-        },
-        "validity": {
-          "type": "object",
-          "properties": {
-            "ttl": {
-              "type": "string"
-            }
-          },
-          "required": ["ttl"]
-        },
-        "witnesses": {
-          "type": "object"
-        }
-      },
-      "required": [
-        "auxiliary",
-        "collateral",
-        "fee",
-        "hash",
-        "inputs",
-        "outputs",
-        "successful",
-        "validity",
-        "witnesses"
-      ]
-    }
-  },
-  "required": ["type", "point", "chain", "record"]
+  "outputIndex": "number",
+  "txHash": "string"
 }
 ```
 
-## Example Message
-
-### Cardano
+This hydrated structure would add a `resolvedInputs` key to the overall transaction message and nest the resolved inputs corresponding to their
+input index of the respective transaction:
 
 ```json
 {
-  "type": "transaction",
+  "transactions": [
+    { /* transaction cbor 1 */ },
+    { /* transaction cbor 2 */ },
+    /* ... */
+  ],
+  "resolvedInputs": [
+    [
+      { /* transaction 1 resolved input 1 cbor */ },
+      { /* transaction 1 resolved input 2 cbor */ }
+    ],
+    [
+      { /* transaction 2 resolved input 1 cbor */ }
+    ]
+  ],
   "point": {
-    "hash": "498726fe257056c4ec4b2f0172ea8bd2bad2a0d68f191b68b9972effec094dd0",
-    "slot": 126222397
+    /* chain height/ slot, block hash */
   },
   "chain": {
-    "blockchain": "cardano",
-    "network": "mainnet"
+    /* blockchain name, network */
   },
-  "record": {
-    "auxiliary": {},
-    "collateral": {},
-    "fee": "183101",
-    "hash": "tdggcAoPAQPM7VaYPDjKPTa+ofSR0TZ+qG1phD7lvWo=",
-    "inputs": [
-      {
-        "outputIndex": 1,
-        "txHash": "tuav++KdQSQZ4qWizHBn5MwzuThFEzf8BXPMhGRsBDA="
-      }
-    ],
-    "outputs": [
-      {
-        "address": "AVpMGFoKZym+QhZohbB0nbwOp+31nG2REV87Oo5q8DPtb81XYKLg1DvTSA/YULrqN4OZKKlEn9f6",
-        "assets": [
-          {
-            "assets": [{ "name": "S3ViZUNvaW4=", "outputCoin": "65000000" }],
-            "policyId": "omAiCWxqgFKYfau/qUhJq3iGzwu3hABE4BfVvg=="
-          }
-        ],
-        "coin": "1189560"
-      },
-      {
-        "address": "gtgYWEKDWBz6e1xwAg3XvI9vJNUYDsa53gIoQ8VKIbCfDuUVoQFYHlgcvqt7XGtF71qxaHKoNyn9MgJoxs2GV0rdR88OSAAaigLYDg==",
-        "assets": [
-          {
-            "assets": [
-              { "name": "d29ybGRtb2JpbGV0b2tlbg==", "outputCoin": "1000000000" }
-            ],
-            "policyId": "HX8zvSPYXhol2H2G+sTxmcMZei96/rZioPNOHg=="
-          },
-          {
-            "assets": [{ "name": "U05FSw==", "outputCoin": "1093896" }],
-            "policyId": "J5yQnzSOUz2lgIiY+H+aFLssPfu6zM1jHZJ6Pw=="
-          },
-          {
-            "assets": [{ "name": "S3ViZUNvaW4=", "outputCoin": "34080000000" }],
-            "policyId": "omAiCWxqgFKYfau/qUhJq3iGzwu3hABE4BfVvg=="
-          },
-          {
-            "assets": [{ "name": "TUVMRA==", "outputCoin": "335000000000" }],
-            "policyId": "opRFc+mdLtMFW4COqiZPC/EZ4B/GsYhjBnxj5A=="
-          }
-        ],
-        "coin": "21511490678"
-      }
-    ],
-    "successful": true,
-    "validity": { "ttl": "126229595" },
-    "witnesses": {}
+  "tip": {
+    /* current chain tip */
   }
+  // ...
 }
 ```
+
+## Cardano
+
+In the Cardano ecosystem, the native encoding is CBOR which follows the [CIP-0116](https://github.com/klntsky/CIPs/blob/klntsky/json-spec-cip/CIP-0116/README.md) standard. Therefore, transactions are passed as hexadecimal blob representing cbor.
