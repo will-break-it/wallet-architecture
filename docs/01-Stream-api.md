@@ -47,7 +47,7 @@ Our API needs a reliable measurement of time to construct a stream of ordered, c
 > - helps manage network congestion by allowing expired transactions to be discarded
 > - supports operations that need to occur within specific timeframes
 
-Some blockchains, like Cardano, define a notion of time based on slots, which are fixed intervals of time (typically seconds) elapsed since the network's genesis block. In contrast, other blockchains like Bitcoin don't use a fixed time interval and instead rely on an intrinsic clock derived from block production for transaction validity intervals.
+Some blockchains, like Cardano, define a notion of time based on slots, which are fixed intervals of time (typically seconds). Slot numbers either represent elapsed seconds since the network's genesis block (absolute) or beginning of epoch (epoch). In contrast, other blockchains like Bitcoin don't use a fixed time interval and instead rely on an intrinsic clock derived from block production for transaction validity intervals.
 
 ### Our Protocol's Way of Tracking Time
 
