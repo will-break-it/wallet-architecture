@@ -135,4 +135,3 @@ More information can be found [here](./messages/client/subscribe.md).
 [2. Synchronization](./02-Synchronization.md)
 
 [3. Encoding Standard](./03-Encoding.md)
-
