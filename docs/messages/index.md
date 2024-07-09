@@ -73,9 +73,17 @@ Each server-sent message incorporates a unique chain-specific identifier. This i
 > For example, Ethereum-compatible chains, the `chain_id` field is particularly important as it corresponds to the [EIP-155](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md) chain ID.<br />
 
 A client may define multiple [`subscription`](./messages/client/subscribe.md) objects (topics of interest) to receive events from different blockchains.
+This is done via subscriptions by proving authenticity depending on the blockchain.
+
+A client has the capability to initiate multiple subscriptions either in a single message at once or sequentially over time via a unified WebSocket connection. 
+When multiple subscriptions are grouped within a single message, any authentication failure in one subscription results in the intentional failure of all subscriptions included in that message.
+
+Alternatively, when subscriptions are executed sequentially, each subscription operation remains independent and does not impact the others.
+
+Furthermore, a client may opt for a dedicated WebSocket connection per subscription, restricting each WebSocket connection to handle only one subscription at a time.
 
 ## Event Sequencing and Synchronization
-
+ 
 As described on a high-level before, each event server-sent message includes a `point` object. This object is crucial for tracking a client's progress in synchronizing with the current tip of a **specific** blockchain.
 This type may vary depending on the blockchain, the following shows a few examples:
 
