@@ -3,8 +3,7 @@
 This top level message key is added by the server as part of any synchronization process for every era transition.
 It has similarities with hardfork events on other blockchains but has been represented by its own message partial.
 
-The main reason why a wallet needs to know about era transitions in Cardano is due to possible network changes. In particular, since the beginning of Cardano's Shelley era, the ouroborus consensus protocol was introduced which introduced a slot length, which is a defined duration of time in which a block can be produced by a leader (stake pool). That slot slength was initially set to one second but may change in the future. Therefore,
-depending on the slot length, the conversion changes given a specific [`point`](../../index.md#event-sequencing-and-synchronization) in on-chain time.
+The primary reason a wallet needs to be aware of era transitions in Cardano is due to potential network changes. Specifically, since the beginning of Cardano's Shelley era, the Ouroboros consensus protocol was introduced, which defined a slot length—a specific duration of time during which a block can be produced by a leader (stake pool). Initially, this slot length was set to one second but may change in the future. Therefore, depending on the slot length, the conversion of a specific [`point`](../../index.md#event-sequencing-and-synchronization) in on-chain time may vary.
 
 In order to show and submit transaction times correctly, wallets need to know each era's slot length.
 
