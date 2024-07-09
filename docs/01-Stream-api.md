@@ -114,7 +114,7 @@ Any cases of failure trigger an error message that is appended to a list of `err
 
 ## Message Types
 
-We distinguish between _client-sent_ and _server-sent_ messages. Client messages define a message `type` , whereby server-sent messages follow the aggregated, compound message structure explained above. An index of client message types and server-sent message parts is detailed [here](./messages/index.md).
+We distinguish between _client-sent_ and _server-sent_ messages. Client messages are typed messages. Each message defines a `type`, whereby server-sent messages follow the aggregated, compound message structure explained above. An index of client message types and server-sent message parts is detailed [here](./messages/index.md).
 
 ## Keep Alive/ Heartbeat Messages
 
