@@ -11,7 +11,9 @@ Sent by client to server right after establishing a connection. New clients must
   "properties": {
     "type": {
       "type": "string",
-      "enum": ["subscribe"]
+      "enum": [
+        "subscribe"
+      ]
     },
     "topics": {
       "type": "array",
@@ -28,9 +30,12 @@ Sent by client to server right after establishing a connection. New clients must
                 "type": "string"
               }
             },
-            "required": ["name", "network"]
+            "required": [
+              "name",
+              "network"
+            ]
           },
-          "public_key": {
+          "publicKey": {
             "type": "string",
             "pattern": "^[A-Za-z0-9+/=]*$"
           },
@@ -61,16 +66,34 @@ Sent by client to server right after establishing a connection. New clients must
                   }
                 },
                 "required": [
-                  "payment", "stake"
+                  "payment",
+                  "stake"
                 ]
+              },
+              "config": {
+                "type": "object",
+                "properties": {
+                  "resolveTxInput": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "assetMetadata": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
               }
             },
             "required": [
-              "credentials"
+              "credentials", "config"
             ]
           }
         },
-        "required": ["blockchain", "public_key", "signature"]
+        "required": [
+          "blockchain",
+          "publicKey",
+          "signature"
+        ]
       }
     },
     "timestamp": {
@@ -78,7 +101,11 @@ Sent by client to server right after establishing a connection. New clients must
       "format": "date-time"
     }
   },
-  "required": ["type", "topics", "timestamp"],
+  "required": [
+    "type",
+    "topics",
+    "timestamp"
+  ],
   "additionalProperties": false
 }
 ```
@@ -101,12 +128,16 @@ The signature verifies ownership of the private key, whose corresponding public 
   "topics": [
     {
       "blockchain": { "name": "cardano", "network": "mainnet" },
-      "public_key": "public_key_example",
+      "publicKey": "publicKey_example",
       "signature": "OGNiOWIyNGVjOTMxZmY3N2MzYjQxOTY3OWE0YTcwMzczZmVkZmIxNDZmMDE0ODk0Nzg4YjUxMmIzMjE4MDdiYw==", // base64, SHA256 HMAC with your signing key
       "cardano": {
         "credentials": {
           "payment": ["script...", "addr_vkh..."], // this field follows  CIP-0005
           "stake": ["script...", "addr_vkh..."] // this field follows  CIP-0005
+        },
+        "config": {
+          "resolveTxInput": true,
+          "assetMetadata": true
         }
       }
     }
@@ -123,7 +154,7 @@ In the case of Cardano blockchain, all the relevant fields are placed under a fi
 Below we list the currently supported subscriptions:
 
 ### Cardano
-This is the format for a Cardano specific object in the `topics` array.
+This is the format for a Cardano specific object in the `topics` array. A client can subscribe to multiple accounts at once by providing multiple objects or one by one at any given time.  
 ```json
 {
   "blockchain": {
@@ -133,7 +164,7 @@ This is the format for a Cardano specific object in the `topics` array.
       "enum": ["mainnet", "preprod", "preview"]
     }
   },
-  "public_key": {
+  "publicKey": {
     "type": "string"
   },
   "signature": {
@@ -164,10 +195,29 @@ This is the format for a Cardano specific object in the `topics` array.
         "required": [
           "payment", "stake"
         ]
+      },
+      "config": {
+        "type": "object",
+        "properties": {
+          "resolveTxInput": {
+            "type": "boolean",
+            "default": false
+          },
+          "assetMetadata": {
+            "type": "boolean",
+            "default": false
+          }
+        }
       }
     },
-    "required": ["credentials"]
+    "required": ["credentials", "config"]
   },
-  "required": ["blockchain", "public_key", "signature", "cardano"]
+  "required": ["blockchain", "publicKey", "signature", "cardano"]
 }
 ```
+### Other blockchains
+Any other blockchain schema should follow the same structure as the above Cardano example by applying these:
+* Group blockchain specific properties under one property named after the blockchain (see `cardano` field)
+* Keep chain specific authentication fields under `credentials` property
+* Keep chain specific configuration fields under `config` property
+* Define a JSON Schema in the documentation
