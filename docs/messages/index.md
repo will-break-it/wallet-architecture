@@ -51,7 +51,10 @@ Network events are occurrences that impact the overall operation and configurati
 - [`transaction`](./server/transaction.md): A new transaction
 - [`tip`](./server/tip.md): A new block was appended
 
+### Cardano
 
+- [`protocol parameters`](./server/cardano/protocol-parameters.md): Epoch based message for updated protocol parameters
+- [`era summary`](./server/cardano/era-summary.md): Era based message for updated slot length
 
 ## Multichain Support
 
