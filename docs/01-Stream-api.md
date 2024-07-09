@@ -89,8 +89,9 @@ We borrow the term `point` from the Cardano blockchain to create an abstract not
 }
 ```
 
-> ℹ️ **Remark**<br />
-> New top level message keys can be added at any time.<br />
+> [!NOTE]
+>
+> New top level message keys can be added at any time.
 > Clients are expected to iterate over messages and skip those they do not support.
 
 More information for time and event sequencing can be found in the section [Event Sequencing and Synchronization](./messages/index.md#event-sequencing-and-synchronization).
