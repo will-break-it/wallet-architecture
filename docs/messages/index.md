@@ -2,7 +2,7 @@
 
 This index categorizes supported message types in our event-driven communication protocol, distinguishing between client-sent and server-sent messages. It serves as the foundation for understanding the protocol's structure and functionality.
 
-> ℹ️ **Remark**<br />
+> [!NOTE]
 > We use the https://json-schema.org/draft-07/schema# schema to define messages.
 
 # Client Messages
@@ -26,6 +26,7 @@ Any server-sent message is enriched with any data that can be tied to the curren
 
 ## List of Server Message Partials
 
+- [`genesis`](./server/genesis.md): If applicable for the subscribed blockchain, it serves static data used as part of the network bootstrap
 - [`transaction`](./server/transaction.md): A new transaction
 - [`tip`](./server/tip.md): A new block was appended
 
@@ -41,7 +42,7 @@ Each server-sent message incorporates a unique chain-specific identifier. This i
 }
 ```
 
-> ℹ️ **Remark**<br />
+> [!NOTE]
 > The fields of `chain` may slightly vary because some networks require additional metadata.
 > For example, Ethereum-compatible chains, the `chain_id` field is particularly important as it corresponds to the [EIP-155](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md) chain ID.<br />
 
