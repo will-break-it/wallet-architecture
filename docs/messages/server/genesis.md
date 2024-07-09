@@ -2,7 +2,7 @@
 
 This top level message key is added by the server as part of any synchronization process that starts from the genesis [`point`](../index.md#event-sequencing-and-synchronization), also sometimes referred to `origin`.
 
-Depending on the blockchain that a client subscribes too, this message partial may not exist.
+Depending on the blockchain that a client subscribes to, this message partial may not exist.
 
 ## Schema
 
