@@ -1,0 +1,57 @@
+@startuml Lace Fundamental State Sequence Flow
+
+actor Lace
+participant "Provider Server" as server
+participant "Cardano Node" as Node
+participant "Cardano DB Sync" as dbSync
+database PostgreSQL as DB
+participant "Token Metadata Service" as tokenMetadataService
+
+group ChainSync
+  group startup
+    dbSync -> DB: queryLastBlock()
+    DB --> dbSync: lastBlock
+    dbSync -> dbSync: convertToPoint(lastBlock)
+    dbSync -> Node: findIntersection(point)
+    Node --> dbSync: intersection
+  end
+  dbSync -> Node: nextBlock(point)
+  Node --> dbSync: block
+  dbSync -> dbSync: decode and process
+  dbSync -> DB: write()
+end
+
+loop Poll
+  Lace -> server: getTip()
+  server -> DB: queryTip()
+  DB --> server: tip
+  server --> Lace: tip
+  alt onNewTip
+    Lace -> server: transactionsByAddresses(addrs, sincePoint)
+    server -> DB: queryAddresses(addrs)
+    DB --> server: transactions
+    server --> Lace: transactions
+    break ifNoIntersectionInTxSet
+      Lace -> Lace: Assume rollback. Remove local state and retry with new point.
+    end
+    Lace -> Lace: Extract state
+    alt onNewAssets
+         Lace -> server: getAssets(assetIds, sincePoint)
+         server -> DB: getOnChainMetadata(assetIds)
+         DB --> server: onChainMetadata
+         server -> tokenMetadataService: getOffChainMetadata(assetIds)
+         tokenMetadataService --> server: offChainMetadata
+         server --> Lace: assetMetadata
+    end
+       Lace -> Lace: store(state)
+  end
+  alt onEpochRollover
+    Lace -> server: rewardsHistory(accounts)
+    server -> DB: queryRewards(accounts)
+    DB --> server: rewards
+    Lace <-- server: rewards
+  end
+      Lace -> Lace: store(state)
+end
+
+@enduml
