@@ -92,3 +92,5 @@ Cardano's genesis information looks as follows:
   "additionalProperties": false
 }
 ```
+
+An example type can be found in the [cardano-js-sdk](https://github.com/input-output-hk/cardano-js-sdk/blob/master/packages/core/src/Cardano/types/Genesis.ts#L6).
