@@ -40,7 +40,7 @@ Our API needs a reliable measurement of time to construct a stream of ordered, c
 - monitoring the progress of synchronization up to the chain's tip
 - defining transaction validity intervals
 
-> **Transaction validity intervals**<br />
+> [!NOTE] **Transaction validity intervals**
 > allow clients to submit transactions with a specified lifetime, which serves several important purposes:
 >
 > - protects against replay attacks by ensuring transactions can't be resubmitted after expiration
