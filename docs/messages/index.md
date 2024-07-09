@@ -3,32 +3,55 @@
 This index categorizes supported message types in our event-driven communication protocol, distinguishing between client-sent and server-sent messages. It serves as the foundation for understanding the protocol's structure and functionality.
 
 > [!NOTE]
-> We use the https://json-schema.org/draft-07/schema# schema to define messages.
+> We use the <https://json-schema.org/draft-07/schema#> schema to define messages.
 
-# Client Messages
+## Client Messages
 
 - [`heartbeat`](./client/heartbeat.md): Connection management/ keep alive
 - [`subscribe`](./client/subscribe.md): Define topics of interest & authentication
 - [`unsubscribe`](./client/unsubscribe.md): Graceful disconnect from server
 
-# Server Messages
+## Server Messages
 
 Server-sent messages are sent either **periodically** or **by trigger** due to newly available, relevant data for a specific client.
-Any server-sent message is enriched with any data that can be tied to the current chain's point in time. This may include:
 
-  - protocol parameters have changed:<br />
-  → message is enriched by adding a unique top level key referencing the the current epoch's protocol parameters
-  - a new epoch started:<br />
-  → message is enriched with wallet's staking rewards
-  - a new era started:<br />
-  → message is enriched with era summary
-  - ...
+### Message Partials
 
-## List of Server Message Partials
+Different blockchains have different **periodic** events that are not related to specific transactions, but are required for either transaction construction or necessary to derive the correct wallet state. These events get represented by additional top level message keys (message partial) correlated to a chain [`point`](#event-sequencing-and-synchronization).
+
+We differentiate between [Ledger](#ledger-events) and [Network](#network-events) events.
+
+#### Ledger events
+
+Ledger events are specific occurrences that directly affect the state of a blockchain's ledger. These events typically involve changes to account balances, transaction histories, and other financial records.
+
+##### Examples
+
+- new transactions
+- smart contract interactions
+- token transfers
+- stake delegation changes
+
+#### Network events
+
+Network events are occurrences that impact the overall operation and configuration of the blockchain network but do not directly alter the ledger's state. These events often involve changes to the network's consensus mechanism, protocol parameters, or infrastructure.
+
+##### Examples
+
+- Difficulty Adjustments (Bitcoin): Changes to the mining difficulty to maintain a consistent block production rate.
+- Halving Events (Bitcoin): Reductions in the block reward given to miners, which occur approximately every four years.
+- Epoch Transitions (Cardano): Periodic changes in the network's epoch, which can involve updates to protocol parameters and staking rewards.
+- Era/ Network Transitions (Cardano): Cardano has transitioned through different [eras](https://roadmap.cardano.org/en/) which add/ remove or change certain network properties
+- Network Upgrades (Ethereum): Implementation of new protocol features or improvements, such as the transition to Proof-of-Stake or gas price adjustments.
+- Slot Leader Schedule Updates (Solana): Changes to the schedule of validators responsible for producing blocks.
+
+## Server Message Partials
 
 - [`genesis`](./server/genesis.md): If applicable for the subscribed blockchain, it serves static data used as part of the network bootstrap
 - [`transaction`](./server/transaction.md): A new transaction
 - [`tip`](./server/tip.md): A new block was appended
+
+
 
 ## Multichain Support
 
