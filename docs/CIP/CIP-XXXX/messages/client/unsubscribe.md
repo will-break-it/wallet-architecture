@@ -31,6 +31,6 @@ Upon receiving an unsubscribe message, the server will:
 {
   "type": "acknowledge",
   "status": "success",
-  "timestamp": "2024-06-27T14:30:00Z",
+  "timestamp": "2024-06-27T14:30:00Z"
 }
 ```

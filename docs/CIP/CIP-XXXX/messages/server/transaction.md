@@ -20,7 +20,7 @@ The term "hydrated" refers to the process of enriching a message with additional
 
 The hydration process is achieved by adding top level keys to the message that follow a specific structure correlating to transactions that were passed as part of the message.
 
-#### Resolved transaction inputs
+### Resolved transaction inputs
 
 A transaction input of a UTxO blockchain also referred to as transaction output reference usually follows a structure like this:
 
