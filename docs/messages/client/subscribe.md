@@ -217,8 +217,11 @@ This is the format for a Cardano specific object in the `topics` array. A client
   "required": ["blockchain", "publicKey", "signature", "cardano"]
 }
 ```
+
 ### Other blockchains
+
 Any other blockchain schema should follow the same structure as the above Cardano example by applying these:
+
 * Group blockchain specific properties under one property named after the blockchain (see `cardano` field)
 * Keep chain specific authentication fields under `credentials` property
 * Keep chain specific configuration fields under `config` property
