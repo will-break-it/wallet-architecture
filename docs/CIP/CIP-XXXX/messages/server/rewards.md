@@ -23,12 +23,11 @@ A portion of fees is collected from network transactions.
 Voting rewards for participating in Catalyst are funded by the treasury which receives a percentage of transaction fees (defined by a protocol parameter).
 The treasury is primarily used for funding development and improvements to the Cardano ecosystem but has also distributed rewards through community voting in the past.
 
-## Withdrawals
-
-By default, any accrued rewards are a credit in a special rewards account associated to the respective wallet until withdrawn. This rewards account uses a balance model. A wallet's balance already includes rewards as soon as they are granted. In order for a wallet to claim/ spend aggregated rewards, the user must initiate a withdrawal transaction, which moves the rewards from the rewards account to the wallet, creating new UTxOs.
-
 > [!NOTE]
-> Withdrawals are a specific field within a transaction, and they are serialized as part of the transaction's CBOR representation. This allows wallets to derive their UTxO set as well as available reward balance.
+> **Withdrawals**
+>
+> By default, any accrued rewards are a credit in a special rewards account associated to the respective wallet until withdrawn. This rewards account uses a balance model. > A wallet's balance already includes rewards as soon as they are granted. In order for a wallet to claim/ spend aggregated rewards, the user must initiate a withdrawal > > transaction, which moves the rewards from the rewards account to the wallet, creating new UTxOs.
+>
 
 ## Schema
 
@@ -69,12 +68,27 @@ To enable wallets to distinguish between both kind of rewards, a reward message 
             }
           },
           "required": ["lovelace"]
+        },
+        "poolDeposit": {
+          "type": "object",
+          "properties": {
+            "poolId": {
+              "type": "string",
+              "pattern": "^pool[a-zA-Z0-9]{54}$"
+            },
+            "lovelace": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": ["lovelace"]
         }
       },
       "required": ["epoch"],
       "anyOf": [
         { "required": ["delegation"] },
-        { "required": ["voting"] }
+        { "required": ["voting"] },
+        { "required": ["poolDeposit"] }
       ]
     }
   },
@@ -94,6 +108,10 @@ To enable wallets to distinguish between both kind of rewards, a reward message 
     },
     "voting": {
       "lovelace": 111222
+    },
+    "poolDeposit": {
+      "poolId": "pool13gdtqme63jprkug3j4wzslhmu0yk4kdx323rtxpjuz7rqv3yyes",
+      "lovelace": 500000000
     }
   }
 }

@@ -9,15 +9,20 @@ queue "Task Queue" as Queue
 participant "Projection Worker" as Worker
 
 group Wallet Connects
-  Wallet -> Server: connect(credentials, points: PointOrOrigin[])
+  Wallet -> Server: subscribe(credentials, points: PointOrOrigin[])
   Server -> DB: findIntersection(points)
   DB -> Server: response: intersection point or genesis
+
+  alt if no intersection found
+    Server -> Wallet: <event> { invalid point error }
+    Wallet --> Server: subscribe(points: PointOrOrigin[])
+  end
 
   alt if point is genesis
     Server -> Wallet: <event> {network genesis parameters}
   end
 
-  group Catch-up Phase: Get intersection events 
+  group Replay Phase: Get intersection events 
     group protocol parameters
       Server -> DB: protocolParametersSince(point)
       DB --> Server: response: protocolParameters: [protocol-parameters]
@@ -60,7 +65,7 @@ group Wallet Connects
 
 end
 
-group Wallet Synchronization
+group Follow Tip
   Node -> Projector: <event> Chain Sync
   Projector -> DB: write & notify(extendedBlock)
   DB -> Server: <event> notify(extendedBlock)
@@ -73,16 +78,6 @@ group Wallet Synchronization
       Server -> Wallet: <event> { tip }
     end
   end
-end
-
-group Asynchronous projection
-  Node -> Projector: <event> Chain Sync
-  Projector -> Queue: insert or delete task
-  Worker -> Queue: getTask()
-  Queue --> Worker: return task
-  Worker -> DB: insert & notify
-  DB -> Server: <event> {metadata: {pool:{id, metadata}}
-  Server -> Wallet: <event> {metadata: {pool:{id, metadata}}
 end
 
 @enduml
