@@ -154,7 +154,9 @@ In the case of Cardano blockchain, all the relevant fields are placed under a fi
 Below we list the currently supported subscriptions:
 
 ### Cardano
-This is the format for a Cardano specific object in the `topics` array. A client can subscribe to multiple accounts at once by providing multiple objects or one by one at any given time.  
+
+This is the format for a Cardano specific object in the `topics` array. A client can subscribe to multiple accounts at once by providing multiple objects or one by one at any given time.
+
 ```json
 {
   "blockchain": {

@@ -69,12 +69,27 @@ To enable wallets to distinguish between both kind of rewards, a reward message 
             }
           },
           "required": ["lovelace"]
+        },
+        "poolDeposit": {
+          "type": "object",
+          "properties": {
+            "poolId": {
+              "type": "string",
+              "pattern": "^pool[a-zA-Z0-9]{54}$"
+            },
+            "lovelace": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": ["lovelace"]
         }
       },
       "required": ["epoch"],
       "anyOf": [
         { "required": ["delegation"] },
-        { "required": ["voting"] }
+        { "required": ["voting"] },
+        { "required": ["poolDeposit"] }
       ]
     }
   },
@@ -94,6 +109,10 @@ To enable wallets to distinguish between both kind of rewards, a reward message 
     },
     "voting": {
       "lovelace": 111222
+    },
+    "poolDeposit": {
+      "poolId": "pool13gdtqme63jprkug3j4wzslhmu0yk4kdx323rtxpjuz7rqv3yyes",
+      "lovelace": 500000000
     }
   }
 }
