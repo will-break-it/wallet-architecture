@@ -6,7 +6,7 @@ Category: Wallets
 Authors:
     - William Wolff <william.wolff@iohk.io>
 Implementors: N/A
-Solution-To: [CPS-????](../CPS/CPS-XXXX/README.md)
+Solution-To: CPS-????
 Discussions:
 Created: 2024-07-10
 License: CC-BY-4.0
