@@ -18,7 +18,7 @@ We propose an event-driven, push-based API optimized for wallet applications, le
 
 ## Motivation: why is this CIP necessary?
 
-The CIP provides a partial solution to the problems described in [CPS-????](../CPS/CPS-XXXX/README.md). In particular, the need for a standardized approach serving data in an unopinionated, close to blockchain native format.
+The CIP provides a partial solution to the problems described in [CPS-????](../CPS/CPS-XXXX/README.md). In particular, we strive to define a standardized approach serving data to edge clients in an unopinionated, close to blockchain native format using a push-based protocol.
 
 ## Specification
 
@@ -63,7 +63,7 @@ Client-sent messages are **typed** messages, such as:
 }
 ```
 
-This allows the server to quickly identify the client's intent. More details on what typed messages exist will be covered further below.
+This allows the server to quickly identify the client's intent. More details on what typed messages exist will be covered in [Client Typed Messages](#client-typed-messages) section.
 
 #### Server
 
