@@ -164,7 +164,7 @@ This event stream provides a chronological record of on-chain events and affecti
 
 Clients can resume synchronization from their last known `point`s after disconnecting. To minimize reconnection attempts, clients should provide a list of `point`s based on their most recent state, including some that may have been affected by rollbacks. This approach reduces the likelihood of the server failing to find a valid intersection, which would otherwise result in dropped connections and additional round trips.
 
-> ![NOTE]
+> [!NOTE]
 > More details are described in the [`subscribe`](./messages/client/subscribe.md) message.
 
 #### Rollback Handling
