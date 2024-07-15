@@ -184,6 +184,11 @@ Clients may send multiple [`subscribe`](./messages/client/subscribe.md) messages
 
 - server indexing data by credentials to optimize queries to retrieve client relevant data
 
+### Versioning
+
+In our protocol, the client sends its list of supported versions as part of the initial [`subscribe`](./messages/client/subscribe.md) message. Upon receiving this information, the server selects the highest mutually supported version and associates it with the client.
+This method requires the server to implement version-based message construction, allowing it to tailor its responses to each client's supported version.
+
 ### Encoding
 
 Our proposed communication protocol **adopts blockchain-native encoding standards** to ensure compatibility and efficiency. This approach leverages existing conventions familiar to clients while minimizing conversion overhead on the server-side.
@@ -222,6 +227,15 @@ A primary consideration for the protocol design was to minimize message round tr
 - [`era summary`](./messages/server/era-summary.md): Era based message for updated slot length
 
 ## Path to Active
+
+### Acceptance Criteria
+
+-[x]
+
+### Implementation Plan
+
+-[x]
+
 
 ## Copyright
 
