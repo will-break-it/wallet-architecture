@@ -5,6 +5,10 @@ Status: Proposed
 Category: Wallets
 Authors:
   - William Wolff <william.wolff@iohk.io>
+  - Sefa Irken <sefa.irken@iohk.io>
+  - Rhys Bartels-Waller <rhys.bartelswaller@iohk.io>
+  - Martynas Kazlauskas <martynas.kaslauskas@iohk.io>
+  - Daniele Ricci <daniele.ricci@iohk.io>
 Implementors: N/A
 Solution-To: CPS-????
 Discussions:
