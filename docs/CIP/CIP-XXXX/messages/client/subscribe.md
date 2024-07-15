@@ -66,7 +66,7 @@ Sent by client to server right after establishing a connection. New clients must
                   "stake"
                 ]
               },
-              "config": {
+              "extensions": {
                 "type": "object",
                 "properties": {
                   "resolveTxInput": {
@@ -81,7 +81,7 @@ Sent by client to server right after establishing a connection. New clients must
               }
             },
             "required": [
-              "credentials", "config"
+              "credentials", "extensions"
             ]
           }
         },
@@ -129,7 +129,7 @@ The signature verifies ownership of the private key, whose corresponding public 
         "credentials": {
           "extendedPublicKey": ["acct_xvk..."], // this field follows  CIP-0005
         },
-        "config": {
+        "extensions": {
           "resolveTxInput": true,
           "assetMetadata": true
         }
@@ -182,7 +182,7 @@ This is the format for a Cardano specific object in the `topics` array. A client
           "extendedPublicKeys"
         ]
       },
-      "config": {
+      "extensions": {
         "type": "object",
         "properties": {
           "resolveTxInput": {
@@ -196,11 +196,13 @@ This is the format for a Cardano specific object in the `topics` array. A client
         }
       }
     },
-    "required": ["credentials", "config"]
+    "required": ["credentials", "extensions"]
   },
   "required": ["blockchain", "signature", "cardano"]
 }
 ```
+
+We require the 
 
 ### Other blockchains
 
@@ -208,5 +210,5 @@ Any other blockchain schema should follow the same structure as the above Cardan
 
 * Group blockchain specific properties under one property named after the blockchain (see `cardano` field)
 * Keep chain specific authentication fields under `credentials` property
-* Keep chain specific configuration fields under `config` property
+* Keep chain specific configuration fields under `extensions` property
 * Define a JSON Schema in the documentation

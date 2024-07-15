@@ -22,10 +22,6 @@ The CIP provides a partial solution to the problems described in [CPS-????](../C
 
 ## Specification
 
-### Table of Contents
-
-[!TODO]
-
 ### Introduction
 
 #### What does a wallet need to construct transactions?
@@ -200,11 +196,16 @@ Transaction hashes are typically encoded using **hexadecimal representation**.
 
 Address encoding varies depending on the blockchain network. In Cardano the protocol servers bech32 encoded addresses.
 
+### Extensions
+
+Clients can turn on certain `extensions` by setting a respective flags in their subscription [`config](./messages/client/subscribe.md#subscribe-example) which tells the server to for example:
+
+- to enrich transaction output asset values by their respective off-chain metadata such as decimal offsets
+- to resolve transaction inputs (transaction output references) as transaction outputs
+
 ## Rationale: how does this CIP achieve its goals?
 
-### Authentication Optimization
-
-- minimize initial exchange of messages + work on server side -> minimizes spam attach vectors
+A primary consideration for the protocol design was to minimize message round trips between client and server as well as the amount of work to be done by the server for each client. Thus, the API's authentication does not require an initial message exchange but rather defines a standard verifable method for the server to either drop a client early and proceed to publish its relevant data.
 
 ### Client Typed Messages
 
