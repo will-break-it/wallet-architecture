@@ -182,12 +182,6 @@ Since our wallet-optimized protocol defines that server-sent messages include th
 Clients are expected to reconnect on error, when providing invalid `point`s for which a server cannot find an intersection.
 Clients may send multiple [`subscribe`](./messages/client/subscribe.md) messages for different accounts, but subsequently take responsibility to coordinate server-sent events by time to their possibly differently synchronized accounts. When receiving a message that references a `point` that the first account has already seen, the client only applies it for its second account for example.
 
-#### Data Relevance for Clients
-
-![TODO]
-
-- server indexing data by credentials to optimize queries to retrieve client relevant data
-
 ### Versioning
 
 In our protocol, the client sends its list of supported versions as part of the initial [`subscribe`](./messages/client/subscribe.md) message. Upon receiving this information, the server selects the highest mutually supported version and associates it with the client.
