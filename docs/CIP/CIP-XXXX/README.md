@@ -143,7 +143,8 @@ The xpub key also enables efficient querying of client-relevant data:
    - It then queries our index using the corresponding key hashes
    - This process continues until reaching a predefined [gap limit](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#account-discovery)
 
-> [!NOTE] > **Gap Limit:**
+> [!NOTE]
+> **Gap Limit:**
 > We stop querying after encountering a specified number of consecutive unused addresses (the gap limit). This prevents unnecessary searches while ensuring we capture all relevant transactions.
 
 ### Ordering of Events
