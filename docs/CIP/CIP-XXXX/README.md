@@ -230,12 +230,11 @@ A primary consideration for the protocol design was to minimize message round tr
 
 ### Acceptance Criteria
 
--[x]
+[!TODO]
 
 ### Implementation Plan
 
--[x]
-
+[!TODO]
 
 ## Copyright
 
