@@ -31,11 +31,10 @@ The CIP provides a partial solution to the problems described in [CPS-????](../C
 #### What does a wallet need to construct transactions?
 
 - past transactions (receiving & spending) to derive balance, UTxO set, delegation and governance state
-- rewards (staking, voting)
+- reward account balance (staking, voting)
 - network, era or epoch specific data, like:
   - protocol parameters (tx fees, plutus cost models, ...)
-  - era summaries (slot length)
-  - genesis (security param)
+  - genesis (security param, slot length)
 - the current tip/ block height for validity intervals of transactions as well as sync progress
 
 #### How do we serve this data?
@@ -44,7 +43,7 @@ Through a push-based API, wallets are provided with a continuous stream of **rel
 
 #### Protocol
 
-We use a bidirectional protocol (websockets) and encode all messages as JSON objects, while transactions contained in messages are preserved in the chain's native encoding standard (cbor). Messages adhere to a specific structure, ensuring consistency and facilitating efficient communication within our event-driven protocol. As we strive to support multiple blockchains, a server-sent message will always reference the originating chain it relates to.
+We use a bidirectional protocol and encode all messages as JSON objects, while transactions contained in messages are preserved in the chain's native encoding standard (cbor). Messages adhere to a specific structure, ensuring consistency and facilitating efficient communication within our event-driven protocol. As we strive to support multiple blockchains, a server-sent message will always reference the originating chain it relates to.
 
 ### Message Types & Structure
 
@@ -135,11 +134,11 @@ The xpub key also enables efficient querying of client-relevant data:
 
 2. **Indexing Strategy**
 
-   We index transactions by both payment key hash and stake key hash. This dual-indexing approach allows for comprehensive transaction tracking.
+   We index transactions by both payment and stake credential. This dual-indexing approach allows for comprehensive transaction tracking.
 
-3. **Query Process**
+3. **BIP32 Wallet Query Process**
 
-   - The server derives addresses from the client's xpub key
+   - The server derives address credentials from the client's xpub key
    - It then queries our index using the corresponding key hashes
    - This process continues until reaching a predefined [gap limit](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#account-discovery)
 
@@ -154,8 +153,6 @@ Our API needs a reliable measurement of time to construct a stream of ordered, c
 - monitoring the progress of synchronization up to the chain's tip
 - defining transaction validity intervals
 
-> [!NOTE]
-> Transaction validity intervals allow clients to submit transactions with a specified lifetime, which serves several important purposes:
 >
 > - supports operations that need to occur within specific timeframes
 > - helps manage network congestion by allowing expired transactions to be discarded
@@ -180,7 +177,7 @@ We borrow the term `point` from the Cardano blockchain to introduce a sever-sent
 
 ### Synchronization
 
-We refer to synchronization as the process that a wallet undertakes to catch up to the current chain's tip in order to derive its latest state and proceed to transact. The afore-described `point` represents the main anchor for wallets, to be able to:
+We refer to synchronization as the process that a wallet undertakes to catch up to the current chain's tip in order to derive its latest state and proceed to transact. The aforedescribed `point` represents the main anchor for wallets, to be able to:
 
 - resume the sync process since their last known point
 - keep track of their current position in the blockchain
@@ -208,7 +205,7 @@ Clients can resume synchronization from their last known `point`s after disconne
 
 In a [CAP](https://en.wikipedia.org/wiki/CAP_theorem) system like Cardano, which balances global consistency with availability, there is a challenge in dealing with rollback events that impact transaction finality. Regardless of whether one uses their own full node or a server provider for transaction submission - if such events are not properly handled with the help of monitoring the rolling window of [k blocks](https://plutus-apps.readthedocs.io/en/latest/plutus/explanations/rollback.html) and respective resubmission, there is no guarantee that the transaction is finalized, eg. becomes part of the immutable pefix of the Cardano blockchain.
 
-Since our wallet-optimized protocol defines that server-sent messages include the `point` message partial, the client can check if its last `point` is greater than any subsequent message `point` from the server, without the need to introduce a `rollback` specific message partial. This assumes that the client keeps a local copy of the mutuable suffix of the blockchain defined by the security parameter.
+Since our wallet-optimized protocol defines that server-sent messages include the `point` message partial, the client can check if its last `point` is greater than any subsequent message `point` from the server, without the need to introduce a `rollback` specific message partial. This assumes that the client keeps a local copy of the volatile segment of the blockchain defined by the security parameter.
 
 #### Connection Management
 
