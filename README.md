@@ -9,18 +9,6 @@ The API was desgined with an overarching abstraction in mind to focus on the fun
 
 > The ability to transact
 
-## What does a wallet need to construct transactions?
+## Problem Desription [CPS](./docs/CPS/CPS-XXXX/)
 
-In general, to be able to construct transactions the following data is required:
-
-- any transaction related to a client's wallet (incoming/ receiving & outgoing/ spending)
-- staking rewards _if applicable_
-- network, era or epoch specific data, like:
-  - protocol parameters - tx fee calculation (Cardano)
-  - current fee rate, satoshis per byte, sats/byte (Bitcoin)
-  - gas limit, max fee per gas, max priority fee per gas, nonce (Ethereum)
-- the current tip/ block height for validity intervals of transactions
-
-## API Design
-
-We divide the wallet-optimized API into a [push-based, event-driven API](./docs/01-Stream-api.md) and a request/ response API.
+## Improvement Proposal [CIP](./docs/CIP/CIP-XXXX/)
