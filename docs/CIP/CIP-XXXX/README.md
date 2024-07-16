@@ -30,7 +30,7 @@ The CIP provides a partial solution to the problems described in [CPS-????](../C
 
 #### What does a wallet need to construct transactions?
 
-- past transactions (receiving & spending) to derive balance and UTxO set
+- past transactions (receiving & spending) to derive balance, UTxO set, delegation and governance state
 - rewards (staking, voting)
 - network, era or epoch specific data, like:
   - protocol parameters (tx fees, plutus cost models, ...)
