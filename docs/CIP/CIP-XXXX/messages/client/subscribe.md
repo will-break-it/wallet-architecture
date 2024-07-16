@@ -58,6 +58,23 @@ Sent by client to server right after establishing a connection. New clients must
                 },
                 "required": ["payment", "stake"]
               },
+              "points": {
+                "type": "array",
+                "properties": {
+                  "slot": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "hash": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9+/=]*$"
+                  }
+                },
+                "required": [
+                  "slot",
+                  "hash"
+                ]
+              },
               "extensions": {
                 "type": "object",
                 "properties": {
@@ -72,7 +89,11 @@ Sent by client to server right after establishing a connection. New clients must
                 }
               }
             },
-            "required": ["credentials", "extensions"]
+            "required": [
+              "credentials",
+              "extensions",
+              "points"
+            ]
           }
         },
         "required": ["blockchain", "signature"]
@@ -112,6 +133,16 @@ The signature verifies ownership of the private key, whose corresponding public 
         "credentials": {
           "extendedPublicKey": ["acct_xvk..."] // this field follows  CIP-0005
         },
+        "points": [
+          {
+            "slot": 66268628,
+            "hash": "47b8ec3a58a4a69cb5e3397c36cb3966913882fa8179cae10a5d3f9319c4ae66"
+          },
+          {
+            "slot": 87868775,
+            "hash": "074985b22edc01b9579a2e571dc125e044aecf812ee45d50e6fb6fef979fd0d0"
+          }
+        ],
         "extensions": {
           "resolveTxInput": true,
           "assetMetadata": true
@@ -134,6 +165,10 @@ Below we list the currently supported subscriptions:
 
 This is the format for a Cardano specific object in the `topics` array. A client can subscribe to multiple accounts at once by providing multiple objects or one by one at any given time.
 
+The client can provide multiple starting `points` in the mandatory `points` array.
+The first valid point provided in the array will be used as the starting point. If all the points are invalid, the
+subscription will fail.
+In case of an empty array, starting point will be the genesis.
 ```json
 {
   "blockchain": {
@@ -169,6 +204,23 @@ This is the format for a Cardano specific object in the `topics` array. A client
         },
         "required": ["extendedPublicKeys"]
       },
+      "points": {
+        "type": "array",
+        "properties": {
+          "slot": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hash": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9+/=]*$"
+          }
+        },
+        "required": [
+          "slot",
+          "hash"
+        ]
+      },
       "extensions": {
         "type": "object",
         "properties": {
@@ -183,7 +235,11 @@ This is the format for a Cardano specific object in the `topics` array. A client
         }
       }
     },
-    "required": ["credentials", "extensions"]
+    "required": [
+      "credentials",
+      "points",
+      "extensions"
+    ]
   },
   "required": ["blockchain", "signature", "cardano"]
 }
@@ -198,4 +254,5 @@ Any other blockchain schema should follow the same structure as the above Cardan
 - Group blockchain specific properties under one property named after the blockchain (see `cardano` field)
 - Keep chain specific authentication fields under `credentials` property
 - Keep chain specific configuration fields under `extensions` property
+- Keep chain specific starting point fields in `points` array. If not supporting multiple points, use a `point` object.
 - Define a JSON Schema in the documentation
