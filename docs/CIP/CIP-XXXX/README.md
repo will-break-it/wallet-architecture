@@ -89,7 +89,7 @@ This leads to a structure that has many top level keys of which, not every key m
 > [!IMPORTANT]
 >
 > New message partials can be added at any time, which allows for flexible extension of the API.
-> Clients are expected to iterate over message keys and skip those they do not support.
+> Clients are expected to check for message key presence and ignore those they do not support.
 
 #### Errors
 
