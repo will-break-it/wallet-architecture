@@ -104,7 +104,7 @@ Sent by client to server right after establishing a connection. New clients must
       "format": "date-time"
     }
   },
-  "required": ["type", "topics", "timestamp"],
+  "required": ["type", "topic", "timestamp"],
   "additionalProperties": false
 }
 ```
@@ -124,8 +124,8 @@ The signature verifies ownership of the private key, whose corresponding public 
 ```json
 {
   "type": "subscribe",
-  "topics": [
-    {
+  "topic": 
+   {
       "blockchain": { "name": "cardano", "network": "mainnet" },
       "version": ["0.1"],
       "signature": "OGNiOWIyNGVjOTMxZmY3N2MzYjQxOTY3OWE0YTcwMzczZmVkZmIxNDZmMDE0ODk0Nzg4YjUxMmIzMjE4MDdiYw==", // base64, SHA256 HMAC with your signing key
@@ -148,8 +148,7 @@ The signature verifies ownership of the private key, whose corresponding public 
           "assetMetadata": true
         }
       }
-    }
-  ],
+   },
   "timestamp": "2024-06-27T12:34:56Z"
 }
 ```
@@ -163,8 +162,9 @@ Below we list the currently supported subscriptions:
 
 ### Cardano
 
-This is the format for a Cardano specific object in the `topics` array. A client can subscribe to multiple accounts at once by providing multiple objects or one by one at any given time.
-
+This is the format for a Cardano specific object in the `topic` object. A client can subscribe to multiple topics one
+after another at any given time. A client can subscribe to multiple accounts by providing multiple credentials in the 
+`credentials` array.
 The client can provide multiple starting `points` in the mandatory `points` array.
 The first valid point provided in the array will be used as the starting point. If all the points are invalid, the
 subscription will fail.
