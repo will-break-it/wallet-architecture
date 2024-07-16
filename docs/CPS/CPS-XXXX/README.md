@@ -8,7 +8,7 @@ Authors:
     - William Wolff <william.wolff@iohk.io>
     - Martynas Kazlauskas <martynas.kaslauskas@iohk.io>
     - Daniele Ricci <daniele.ricci@iohk.io>
-    - Sefa Irken <sefa.irken@iohk.io>
+    - Hızır Sefa İrken <sefa.irken@iohk.io>
 
 
 Proposed Solutions: []
