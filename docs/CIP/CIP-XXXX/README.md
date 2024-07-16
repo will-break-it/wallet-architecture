@@ -130,7 +130,7 @@ The xpub key also enables efficient querying of client-relevant data:
 
 1. **Address Derivation**
 
-   Using the client's xpub key, our server can deterministically derive a series of public addresses associated with the client's wallet.
+   Using the client's xpub key, our server can deterministically derive a series of public address credentials associated with the client's wallet.
 
 2. **Indexing Strategy**
 
