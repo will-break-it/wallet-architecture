@@ -55,7 +55,7 @@ Client-sent messages are **typed** messages, such as:
 
 ```json
 {
-  "type": "<unique message type>>"
+  "type": "<unique message type>"
   // ...
 }
 ```
