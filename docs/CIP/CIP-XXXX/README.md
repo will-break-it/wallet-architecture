@@ -18,7 +18,7 @@ License: CC-BY-4.0
 
 ## Abstract
 
-We propose an event-driven, push-based API optimized for wallet applications, leveraging the principle that a wallet's state should be a pure function of the blockchain state. This approach eliminates polling strategies and aggregating views, enabling real-time synchronization with the blockchain as new blocks are appended. Our solution addresses key challenges in current wallet implementations, including rollback handling, address discovery and multi-account support.
+We propose a multi-chain, event-driven, push-based API optimized for wallet applications, leveraging the principle that a wallet's state should be a pure function of the blockchain state. This approach eliminates polling strategies and aggregating views, enabling real-time synchronization with the blockchain as new blocks are appended. Our solution addresses key challenges in current wallet implementations, including rollback handling, address discovery and multi-account support.
 
 ## Motivation: why is this CIP necessary?
 
