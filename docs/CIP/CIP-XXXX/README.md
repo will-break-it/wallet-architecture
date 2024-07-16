@@ -244,7 +244,6 @@ A primary consideration for the protocol design was to minimize message round tr
 
 - [`heartbeat`](./messages/client/heartbeat.md): Connection management/ keep alive
 - [`subscribe`](./messages/client/subscribe.md): Define topics of interest & authentication
-- [`unsubscribe`](./messages/client/unsubscribe.md): Graceful disconnect from server
 
 ### Server Message Partials
 

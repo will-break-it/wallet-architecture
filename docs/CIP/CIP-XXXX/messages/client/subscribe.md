@@ -13,7 +13,7 @@ Sent by client to server right after establishing a connection. New clients must
       "type": "string",
       "enum": ["subscribe"]
     },
-    "topics": {
+    "topic": {
       "type": "array",
       "items": {
         "type": "object",

@@ -80,14 +80,4 @@ group Follow Tip
   end
 end
 
-' group Asynchronous projection
-'   Node -> Projector: <event> Chain Sync
-'   Projector -> Queue: insert or delete task
-'   Worker -> Queue: getTask()
-'   Queue --> Worker: return task
-'   Worker -> DB: insert & notify
-'   DB -> Server: <event> {metadata: {pool:{id, metadata}}
-'   Server -> Wallet: <event> {metadata: {pool:{id, metadata}}
-' end
-
 @enduml
