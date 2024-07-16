@@ -16,7 +16,7 @@ subscribing to any blockchain events via a signature.
         "subscribe"
       ]
     },
-    "topics": {
+    "topic": {
       "type": "array",
       "items": {
         "type": "object",
@@ -83,6 +83,23 @@ subscribing to any blockchain events via a signature.
                     "default": false
                   }
                 }
+              },
+              "points": {
+                "type": "array",
+                "properties": {
+                  "slot": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "hash": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9+/=]*$"
+                  }
+                },
+                "required": [
+                  "slot",
+                  "hash"
+                ]
               }
             },
             "required": [
@@ -132,23 +149,43 @@ transactions.
 ```json
 {
   "type": "subscribe",
-  "topics": [
-    {
-      "blockchain": { "name": "cardano", "network": "mainnet" },
-      "publicKey": "publicKey_example",
-      "signature": "OGNiOWIyNGVjOTMxZmY3N2MzYjQxOTY3OWE0YTcwMzczZmVkZmIxNDZmMDE0ODk0Nzg4YjUxMmIzMjE4MDdiYw==", // base64, SHA256 HMAC with your signing key
-      "cardano": {
-        "credentials": {
-          "payment": ["script...", "addr_vkh..."], // this field follows  CIP-0005
-          "stake": ["script...", "addr_vkh..."] // this field follows  CIP-0005
+  "topic": {
+    "blockchain": {
+      "name": "cardano",
+      "network": "mainnet"
+    },
+    "publicKey": "publicKey_example",
+    "signature": "OGNiOWIyNGVjOTMxZmY3N2MzYjQxOTY3OWE0YTcwMzczZmVkZmIxNDZmMDE0ODk0Nzg4YjUxMmIzMjE4MDdiYw==",
+    // base64, SHA256 HMAC with your signing key
+    "cardano": {
+      "credentials": {
+        "payment": [
+          "script...",
+          "addr_vkh..."
+        ],
+        // this field follows CIP-0005
+        "stake": [
+          "script...",
+          "addr_vkh..."
+        ]
+        // this field follows CIP-0005
+      },
+      "points": [
+        {
+          "slot": 66268628,
+          "hash": "47b8ec3a58a4a69cb5e3397c36cb3966913882fa8179cae10a5d3f9319c4ae66"
         },
-        "config": {
-          "resolveTxInput": true,
-          "assetMetadata": true
+        {
+          "slot": 87868775,
+          "hash": "074985b22edc01b9579a2e571dc125e044aecf812ee45d50e6fb6fef979fd0d0"
         }
+      ],
+      "config": {
+        "resolveTxInput": true,
+        "assetMetadata": true
       }
     }
-  ],
+  },
   "timestamp": "2024-06-27T12:34:56Z"
 }
 ```
@@ -163,7 +200,15 @@ Below we list the currently supported subscriptions:
 
 ### Cardano
 
-This is the format for a Cardano specific object in the `topics` array. A client can subscribe to multiple accounts at once by providing multiple objects or one by one at any given time.
+This is the format for a Cardano specific object in the `topic` object. A client can subscribe to multiple topics one
+after another at any given time.
+A client can subscribe to multiple accounts by providing multiple credentials in the `credentials.payment`
+or `credentials.stake` array.
+The client can provide multiple starting [points](..%2F..%2F01-Stream-api.md#our-protocols-way-of-tracking-time) in the
+mandatory `points` array.
+The first valid point provided in the array will be used as the starting point. If all the points are invalid, the
+subscription will fail.
+In case of an empty array, starting point will be the genesis.
 
 ```json
 {
@@ -223,9 +268,30 @@ This is the format for a Cardano specific object in the `topics` array. A client
             "default": false
           }
         }
+      },
+      "points": {
+        "type": "array",
+        "properties": {
+          "slot": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hash": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9+/=]*$"
+          }
+        },
+        "required": [
+          "slot",
+          "hash"
+        ]
       }
     },
-    "required": ["credentials", "config"]
+    "required": [
+      "credentials",
+      "config",
+      "points"
+    ]
   },
   "required": [
     "blockchain",
@@ -243,4 +309,5 @@ Any other blockchain schema should follow the same structure as the above Cardan
 * Group blockchain specific properties under one property named after the blockchain (see `cardano` field)
 * Keep chain specific authentication fields under `credentials` property
 * Keep chain specific configuration fields under `config` property
+* Keep chain specific starting point fields in `points` array. If not supporting multiple points, use a `point` object.
 * Define a JSON Schema in the documentation
