@@ -243,6 +243,7 @@ A primary consideration for the protocol design was to minimize message round tr
 
 ### Server Message Partials
 
+- [`welcome`](./messages/server/welcome.md): Service details, sent once immediately upon establishing a connection
 - [`genesis`](./messages/server/genesis.md): If applicable for the subscribed blockchain, it serves static data used as part of the network bootstrap
 - [`transaction`](./messages/server/transaction.md): A new transaction
 - [`tip`](./messages/server/tip.md): A new block was appended

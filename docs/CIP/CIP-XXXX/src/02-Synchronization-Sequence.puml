@@ -9,6 +9,7 @@ queue "Task Queue" as Queue
 participant "Projection Worker" as Worker
 
 group Wallet Connects
+  Server -> Wallet: <event> welcome {service details}
   Wallet -> Server: subscribe(credentials, points: PointOrOrigin[])
   Server -> DB: findIntersection(points)
   DB -> Server: response: intersection point or genesis
