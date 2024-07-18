@@ -73,16 +73,23 @@ Sent by client to server right after establishing a connection. New clients must
                 "required": ["slot", "hash"]
               },
               "extensions": {
-                "type": "object",
-                "properties": {
-                  "resolveTxInput": {
-                    "type": "boolean",
-                    "default": false
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "config": {},
+                    "version": {
+                      "type": "string"
+                    }
                   },
-                  "assetMetadata": {
-                    "type": "boolean",
-                    "default": false
-                  }
+                  "required": [
+                    "name",
+                    "config",
+                    "version"
+                  ]
                 }
               }
             },
@@ -135,10 +142,18 @@ The signature verifies ownership of the private key, whose corresponding public 
           "hash": "074985b22edc01b9579a2e571dc125e044aecf812ee45d50e6fb6fef979fd0d0"
         }
       ],
-      "extensions": {
-        "resolveTxInput": true,
-        "assetMetadata": true
-      }
+      "extensions": [
+        {
+          "name": "resolveTxInput",
+          "config": true,
+          "version": "1.0"
+        },
+        {
+          "name": "assetMetadata",
+          "config": false,
+          "version": "1.0"
+        }
+      ]
     }
   },
   "timestamp": "2024-06-27T12:34:56Z"
@@ -147,9 +162,10 @@ The signature verifies ownership of the private key, whose corresponding public 
 
 ## Subscription Extensions
 
-Extensions are a way for clients to define if the server shall enrich data that it publishes. When serving data on-chain it may reference off-chain data or past on-chain data
+Extensions are a way for clients to define if the server shall enable/disable some features like enriching data that it publishes. When serving data on-chain it may reference off-chain data or past on-chain data
 which is more complex to track. To simplify the client-side consumption of such events, the server can aggregate or pull data from other datasources to enrich the
-events it serves to clients at their discretion.
+events it serves to clients at their discretion. To switch extensions on/off, the client provides an array of choices. 
+Setting extension's config value to `false` will switch it off if the extension is on by default.
 
 ### Resolving transaction inputs
 
@@ -166,7 +182,7 @@ For UTxO blockchains like Bitcoin or Cardano, transaction inputs have the follow
 }
 ```
 
-When setting the `resolveTxInput` flag to `true`, the server will include the transaction input address that was spent.
+When setting the `resolveTxInput` extension config to `true`, the server will include the transaction input address that was spent.
 
 ### Asset Metadata
 
@@ -239,16 +255,23 @@ In case of an empty array, starting point will be the genesis.
         "required": ["slot", "hash"]
       },
       "extensions": {
-        "type": "object",
-        "properties": {
-          "resolveTxInput": {
-            "type": "boolean",
-            "default": false
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "config": {},
+            "version": {
+              "type": "string"
+            }
           },
-          "assetMetadata": {
-            "type": "boolean",
-            "default": false
-          }
+          "required": [
+            "name",
+            "config",
+            "version"
+          ]
         }
       }
     },
@@ -258,14 +281,12 @@ In case of an empty array, starting point will be the genesis.
 }
 ```
 
-We require the
-
 ### Other blockchains
 
 Any other blockchain schema should follow the same structure as the above Cardano example by applying these:
 
 - Group blockchain specific properties under one property named after the blockchain (see `cardano` field)
 - Keep chain specific authentication fields under `credentials` property
-- Keep chain specific configuration fields under `extensions` property
+- Keep chain specific configuration and extensions under `extensions` property
 - Keep chain specific starting point fields in `points` array. If not supporting multiple points, use a `point` object.
 - Define a JSON Schema in the documentation
