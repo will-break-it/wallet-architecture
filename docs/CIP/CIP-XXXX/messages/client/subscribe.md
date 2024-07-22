@@ -122,8 +122,6 @@ The signature verifies ownership of the private key, whose corresponding public 
   "type": "subscribe",
   "topic": {
     "blockchain": { "name": "cardano", "network": "mainnet" },
-    "version": ["0.1"],
-    "publicKey": "abc",
     "signature": "OGNiOWIyNGVjOTMxZmY3N2MzYjQxOTY3OWE0YTcwMzczZmVkZmIxNDZmMDE0ODk0Nzg4YjUxMmIzMjE4MDdiYw==", // base64, SHA256 HMAC with your signing key
     "cardano": {
       "credentials": {
@@ -210,12 +208,6 @@ In case of an empty array, starting point will be the genesis.
     "network": {
       "type": "string",
       "enum": ["mainnet", "preprod", "preview"]
-    }
-  },
-  "versions": {
-    "type": "array",
-    "items": {
-      "type": "string"
     }
   },
   "signature": {
