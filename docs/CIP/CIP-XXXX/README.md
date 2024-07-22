@@ -107,9 +107,9 @@ Any cases of server-side failure trigger an error message that is append as sepa
 
 ### Authentication
 
-A newly connected client authenticates as part of the [`subscribe`](./messages/client/subscribe.md) message that is sent to the server to synchronize a specific wallet account up to the chain's current tip. This message must include a **signature** that verifies the ownership of provided extended public key (xpub key).
+A newly connected client authenticates as part of the [`subscribe`](./messages/client/subscribe.md) message that is sent to the server to synchronize a specific wallet account up to the chain's current tip. This message must include a **signature** that verifies the ownership of a payment/ stake child private key.
 
-Extended public keys (xpub keys) serve a dual purpose in our design: **authentication** and **efficient transaction querying**. Here's how it works:
+The private key serves as **authentication** purpose in our design. Here's how it works:
 
 #### Account Authentication
 
