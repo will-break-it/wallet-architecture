@@ -190,10 +190,41 @@ components:
           type: array
           items:
             type: object
-            dditionalProperties: false
             properties:
               name:
                 type: string
+              network:
+                type: string
+              extensions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    config: {}
+                    default: {}
+                    switchable:
+                      type: boolean
+                    versions:
+                      type: array
+                      items:
+                        type: string
+                  required:
+                    - name
+                    - config
+                    - default
+                    - switchable
+                    - versions
+              version:
+                type: string
+            required:
+              - name
+              - network
+              - extensions
+              - version
+      required:
+        - blockchains
     genesisPayload:
       type: object
       properties:
@@ -218,6 +249,17 @@ components:
           type: integer
         securityParam:
           type: integer
+      required:
+        - activeSlotsCoefficient
+        - updateQuorum
+        - maxLovelaceSupply
+        - networkMagic
+        - epochLength
+        - systemStart
+        - slotsPerKesPeriod
+        - slotLength
+        - maxKesEvolutions
+        - securityParam
     transactionPayload:
       type: object
       properties:
@@ -244,11 +286,17 @@ components:
           type: integer
         hash:
           type: string
+        height:
+          type: string
+      required:
+        - hash
     tipPayload:
       type: object
       properties:
         point:
           $ref: '#/components/schemas/pointPayload'
+      required:
+        - point
     protocolParameterPayload:
       type: object
       properties:
@@ -321,6 +369,38 @@ components:
           type: integer
         coinsPerUtxoSize:
           type: string
+      required:
+        - epoch
+        - minFeeA
+        - minFeeB
+        - maxBlockSize
+        - maxTxSize
+        - maxBlockHeaderSize
+        - keyDeposit
+        - poolDeposit
+        - eMax
+        - nOpt
+        - a0
+        - rho
+        - tau
+        - decentralisationParam
+        - extraEntropy
+        - protocolMajorVer
+        - protocolMinorVer
+        - minUtxo
+        - minPoolCost
+        - nonce
+        - costModels
+        - priceMem
+        - priceStep
+        - maxTxExMem
+        - maxTxExSteps
+        - maxBlockExMem
+        - maxBlockExSteps
+        - maxValSize
+        - collateralPercent
+        - maxCollateralInputs
+        - coinsPerUtxoSize
     eraSummaryPayload:
       type: object
       properties:
@@ -329,17 +409,26 @@ components:
           properties:
             epochLength:
               type: integer
-        slotLength:
-          type: integer
-          description: Milliseconds
+            slotLength:
+              type: integer
+              description: Milliseconds
+          required:
+            - epochLength
+            - slotLength
         start:
           type: object
           properties:
             slot:
               type: integer
-        time:
-          type: string
-          format: date-time
+            time:
+              type: string
+              format: date-time
+          required:
+            - slot
+            - time
+      required:
+        - parameters
+        - start
     subscribePayload:
       type: object
       properties:
@@ -359,6 +448,9 @@ components:
                     type: string
                   network:
                     type: string
+                required:
+                  - name
+                  - network
               publicKey:
                 type: string
                 pattern: '^[A-Za-z0-9+/=]*$'
@@ -381,6 +473,9 @@ components:
                         items:
                           type: string
                           pattern: '^[A-Za-z0-9+/=]*$'
+                    required:
+                      - payment
+                      - stake
                   points:
                     type: array
                     properties:
