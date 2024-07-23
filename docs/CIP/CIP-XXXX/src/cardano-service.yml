@@ -116,6 +116,32 @@ components:
         the server and API, helping clients understand the environment they are
         interacting with.
       contentType: application/json
+      payload:
+        $ref: '#/components/schemas/welcomePayload'
+      examples:
+        -
+          name: Welcome
+          summary: Welcome message example
+          payload:
+            blockchains:
+              - name: cardano
+                network: mainnet
+                extensions:
+                  - name: assetMetadata
+                    config: false
+                    switchable: true
+                    versions:
+                      - '1.0'
+                      - '1.1'
+                  - name: CIP-XXXX
+                    config:
+                      timeout: 10
+                    switchable: false
+                    versions:
+                      - '1.0'
+                uri: wss://www.example.com/socketserver
+                version: '0.1'
+
     genesis:
       name: Genesis
       title: Genesis message
@@ -148,6 +174,48 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/protocolParameterPayload'
+      examples:
+        -
+          name: protocolParameters
+          summary: Protocol Parameters message example
+          payload:
+            epoch: 225
+            minFeeA: 44
+            minFeeB: 155381
+            maxBlockSize: 65536
+            maxTxSize: 16384
+            maxBlockHeaderSize: 1100
+            keyDeposit: '2000000'
+            poolDeposit: '500000000'
+            eMax: 18
+            nOpt: 150
+            a0: 0.3
+            rho: 0.003
+            tau: 0.2
+            decentralisationParam: 0.5
+            extraEntropy:
+            protocolMajorVer: 2
+            protocolMinorVer: 0
+            minUtxo: '1000000'
+            minPoolCost: '340000000'
+            nonce: 1a3be38bcbb7911969283716ad7aa550250226b76a61fc51cc9a9a35d9276d81
+            costModels:
+              plutusV1:
+                addIntegerCpuArgumentsIntercept: 197209
+                addIntegerCpuArgumentsSlope: 0
+              plutusV2:
+                addIntegerCpuArgumentsIntercept: 197209
+                addIntegerCpuArgumentsSlope: 0
+            priceMem: 0.0577
+            priceStep: 7.21e-05
+            maxTxExMem: '10000000'
+            maxTxExSteps: '10000000000'
+            maxBlockExMem: '50000000'
+            maxBlockExSteps: '40000000000'
+            maxValSize: '5000'
+            collateralPercent: 150
+            maxCollateralInputs: 3
+            coinsPerUtxoSize: '34482'
     tip:
       name: Tip
       title: Server Tip Message Partial
@@ -155,7 +223,25 @@ components:
         This message partial is added to all server-sent messages and represents
         the latest current tip of the chain.
       payload:
-        $ref: '#/components/schemas/protocolParameterPayload'
+        $ref: '#/components/schemas/tipPayload'
+      examples:
+        -
+          name: Server Tip message
+          summary: Cardano Example
+          payload:
+            tip:
+              point:
+                slot: 127838345
+                hash: 9f06ab6ecce25041b3a55db6c1abe225a65d46f7ff9237a8287a78925b86d10e
+        -
+          name: Server Tip message
+          summary: Bitcnoin Example
+          payload:
+            tip:
+              point:
+                height: 849561
+                hash: 00000000000000000000e51f4863683fdcf1ab41eb1eb0d0ab53ee1e69df11bb
+
     eraSummary:
       name: Era Summary
       title: Era Summary Server Message Partial
@@ -172,6 +258,25 @@ components:
         slot length, the conversion of a specific point in on-chain time may
         vary. In order to show and submit transaction times correctly, wallets
         need to know each era's slot length.
+      payload:
+        $ref: '#/components/schemas/eraSummaryPayload'
+      examples:
+        -
+          name: Era Summary Message
+          summary: Era Summary Message example
+          payload:
+            parameters:
+              epochLength: 432000
+              slotLength: 1
+              safeZone: 129600
+            start:
+              epoch: 74
+              slot: 1598400
+              time: '2020-09-11T08:36:51.000Z'
+            end:
+              epoch: 102
+              slot: 13694400
+              time: '2020-12-30T05:04:51.000Z'
     subscribe:
       name: Subscribe
       title: Subscribe message
@@ -182,6 +287,37 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/subscribePayload'
+      examples:
+        -
+          name: Subscribe
+          summary: Subscribe message
+          payload:
+            type: subscribe
+            topic:
+              blockchain:
+                name: cardano
+                network: mainnet
+              signature: OGNiOWIyNGVjOTMxZmY3N2MzYjQxOTY3OWE0YTcwMzczZmVkZmIxNDZmMDE0ODk0Nzg4YjUxMmIzMjE4MDdiYw==
+              cardano:
+                credentials:
+                  payment:
+                    - 0d166978f407505f157c9f56fdb3358e60d1589295b2f7a1e66c1574
+                  stake:
+                    - 82c00414a674fd7e7657aa5634e2086910c2f210e87f22ce880a0063
+                points:
+                  - slot: 66268628
+                    hash: 47b8ec3a58a4a69cb5e3397c36cb3966913882fa8179cae10a5d3f9319c4ae66
+                  - slot: 87868775
+                    hash: '074985b22edc01b9579a2e571dc125e044aecf812ee45d50e6fb6fef979fd0d0'
+                extensions:
+                  - name: resolveTxInput
+                    config: true
+                    version: '1.0'
+                  - name: assetMetadata
+                    config: false
+                    version: '1.0'
+            timestamp: '2024-06-27T12:34:56Z'
+
   schemas:
     welcomePayload:
       type: object
