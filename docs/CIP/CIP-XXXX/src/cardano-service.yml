@@ -20,7 +20,7 @@ info:
 defaultContentType: application/json
 servers:
   cardano-mainnet:
-    host: mainnet.lacev2.com
+    host: 'localhost:8080'
     protocol: wss
     description: Cardano Mainnet API
     tags:
@@ -29,11 +29,11 @@ servers:
       - name: 'visibility:public'
         description: This resource is public to all users
   cardano-preprod:
-    host: preprod.lacev2.com
+    host: 'localhost:8080'
     protocol: wss
     description: Cardano Preprod API
     tags:
-      - name: 'env:cardano-mainnet'
+      - name: 'env:cardano-preprod'
         description: This environment is for Cardano preprod
       - name: 'visibility:public'
         description: This resource is public to all users
