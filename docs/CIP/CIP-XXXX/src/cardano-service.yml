@@ -274,11 +274,13 @@ components:
           type: array
           format: string
         point:
-          type: string
+          type: object
+          $ref: '#/components/schemas/pointPayload'
         chain:
           type: string
         tip:
-          type: string
+          type: object
+          $ref: '#/components/schemas/pointPayload'
     pointPayload:
       type: object
       properties:
@@ -478,6 +480,9 @@ components:
                       - stake
                   points:
                     type: array
+                    items:
+                      type: object
+                      $ref: '#/components/schemas/pointPayload'
                     properties:
                       slot:
                         type: integer
