@@ -53,7 +53,7 @@ We distinguish between client-sent and server-sent messages.
 
 Client-sent messages are **typed** messages, such as:
 
-```json
+```json5
 {
   "type": "<unique message type>"
   // ...
@@ -134,7 +134,7 @@ The credentials also enable efficient querying of client-relevant data:
 
 2. **BIP32 Wallet Query Process**
 
-   The server queries our index using the corresponding key hashes per client to serve only relevant transactions to scubribed clients.
+   The server queries our index using the corresponding key hashes per client to serve only relevant transactions to subscribed clients.
 
 ### Ordering of Events
 
