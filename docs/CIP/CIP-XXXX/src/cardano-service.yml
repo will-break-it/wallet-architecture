@@ -167,7 +167,7 @@ components:
         synchronization process for every epoch boundary transition.
       contentType: application/json
       payload:
-        $ref: '#/components/schemas/protocolParameterPayload'
+        $ref: '#/components/schemas/protocolParametersPayload'
       examples:
         -
           name: protocolParameters
@@ -315,6 +315,7 @@ components:
   schemas:
     welcomePayload:
       type: object
+      additionalProperties: false
       properties:
         blockchains:
           type: array
@@ -357,6 +358,7 @@ components:
         - blockchains
     genesisPayload:
       type: object
+      additionalProperties: false
       properties:
         activeSlotsCoefficient:
           type: number
@@ -392,6 +394,7 @@ components:
         - securityParam
     transactionPayload:
       type: object
+      additionalProperties: false
       properties:
         outputIndex:
           type: number
@@ -399,10 +402,18 @@ components:
           type: string
         transactions:
           type: array
-          format: string
+          items:
+            type: string
+            contentEncoding: base16
+            description: "The raw serialized CBOR, as found on-chain."
         resolvedInputs:
           type: array
-          format: string
+          items:
+            type: array
+            items:
+              type: string
+              contentEncoding: base16
+              description: "The raw serialized CBOR, as found on-chain."
         point:
           type: object
           $ref: '#/components/schemas/pointPayload'
@@ -413,6 +424,7 @@ components:
           $ref: '#/components/schemas/pointPayload'
     pointPayload:
       type: object
+      additionalProperties: false
       properties:
         slot:
           type: integer
@@ -429,112 +441,21 @@ components:
           $ref: '#/components/schemas/pointPayload'
       required:
         - point
-    protocolParameterPayload:
+    protocolParametersPayload:
       type: object
       properties:
         epoch:
           type: integer
-        minFeeA:
-          type: integer
-        minFeeB:
-          type: integer
-        maxBlockSize:
-          type: integer
-        maxTxSize:
-          type: integer
-        maxBlockHeaderSize:
-          type: integer
-        keyDeposit:
+        parameters:
           type: string
-        poolDeposit:
-          type: string
-        eMax:
-          type: integer
-        nOpt:
-          type: integer
-        a0:
-          type: number
-        rho:
-          type: number
-        tau:
-          type: number
-        decentralisationParam:
-          type: number
-        extraEntropy:
-          type:
-            - 'null'
-            - string
-        protocolMajorVer:
-          type: integer
-        protocolMinorVer:
-          type: integer
-        minUtxo:
-          type: string
-        minPoolCost:
-          type: string
-        nonce:
-          type: string
-        costModels:
-          type: object
-          properties:
-            plutusV1:
-              type: object
-            plutusV2:
-              type: object
-        priceMem:
-          type: number
-        priceStep:
-          type: number
-        maxTxExMem:
-          type: string
-        maxTxExSteps:
-          type: string
-        maxBlockExMem:
-          type: string
-        maxBlockExSteps:
-          type: string
-        maxValSize:
-          type: string
-        collateralPercent:
-          type: integer
-        maxCollateralInputs:
-          type: integer
-        coinsPerUtxoSize:
-          type: string
+          contentEncoding: base16
+          description: "The raw serialized CBOR, as found on-chain."
       required:
         - epoch
-        - minFeeA
-        - minFeeB
-        - maxBlockSize
-        - maxTxSize
-        - maxBlockHeaderSize
-        - keyDeposit
-        - poolDeposit
-        - eMax
-        - nOpt
-        - a0
-        - rho
-        - tau
-        - decentralisationParam
-        - extraEntropy
-        - protocolMajorVer
-        - protocolMinorVer
-        - minUtxo
-        - minPoolCost
-        - nonce
-        - costModels
-        - priceMem
-        - priceStep
-        - maxTxExMem
-        - maxTxExSteps
-        - maxBlockExMem
-        - maxBlockExSteps
-        - maxValSize
-        - collateralPercent
-        - maxCollateralInputs
-        - coinsPerUtxoSize
+        - parameters
     eraSummaryPayload:
       type: object
+      additionalProperties: false
       properties:
         parameters:
           type: object
@@ -563,6 +484,7 @@ components:
         - start
     subscribePayload:
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
