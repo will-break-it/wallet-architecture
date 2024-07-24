@@ -19,24 +19,18 @@ info:
     url: 'https://www.apache.org/licenses/LICENSE-2.0'
 defaultContentType: application/json
 servers:
-  cardano-mainnet:
-    host: 'localhost:8080'
+  local-server:
+    host: '127.0.0.1:{port}'
     protocol: wss
-    description: Cardano Mainnet API
+    description: Default instance, when running a local server.
+    variables:
+      port:
+        default: '8080'
     tags:
-      - name: 'env:cardano-mainnet'
-        description: This environment is for Cardano mainnet production
-      - name: 'visibility:public'
-        description: This resource is public to all users
-  cardano-preprod:
-    host: 'localhost:8080'
-    protocol: wss
-    description: Cardano Preprod API
-    tags:
-      - name: 'env:cardano-preprod'
-        description: This environment is for Cardano preprod
-      - name: 'visibility:public'
-        description: This resource is public to all users
+      - name: 'env:local'
+        description: This environment is for local
+      - name: 'visibility:private'
+        description: This resource is locally visible
 channels:
   cardano:
     address: /v1/wallet
