@@ -399,10 +399,18 @@ components:
           type: string
         transactions:
           type: array
-          format: string
+          items:
+            type: string
+            contentEncoding: base16
+            description: "The raw serialized CBOR, as found on-chain."
         resolvedInputs:
           type: array
-          format: string
+          items:
+            type: array
+            items:
+              type: string
+              contentEncoding: base16
+              description: "The raw serialized CBOR, as found on-chain."
         point:
           type: object
           $ref: '#/components/schemas/pointPayload'
