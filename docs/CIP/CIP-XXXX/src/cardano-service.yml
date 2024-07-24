@@ -315,6 +315,7 @@ components:
   schemas:
     welcomePayload:
       type: object
+      additionalProperties: false
       properties:
         blockchains:
           type: array
@@ -357,6 +358,7 @@ components:
         - blockchains
     genesisPayload:
       type: object
+      additionalProperties: false
       properties:
         activeSlotsCoefficient:
           type: number
@@ -392,6 +394,7 @@ components:
         - securityParam
     transactionPayload:
       type: object
+      additionalProperties: false
       properties:
         outputIndex:
           type: number
@@ -421,6 +424,7 @@ components:
           $ref: '#/components/schemas/pointPayload'
     pointPayload:
       type: object
+      additionalProperties: false
       properties:
         slot:
           type: integer
@@ -451,6 +455,7 @@ components:
         - parameters
     eraSummaryPayload:
       type: object
+      additionalProperties: false
       properties:
         parameters:
           type: object
@@ -479,6 +484,7 @@ components:
         - start
     subscribePayload:
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
