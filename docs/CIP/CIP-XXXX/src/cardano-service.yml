@@ -68,7 +68,7 @@ operations:
     channel:
       $ref: '#/channels/cardano'
   onGenesis:
-    summary: On client connection
+    summary: On client syncing the genesis
     description: Event received if the client is syncing from the origin
     action: receive
     messages:
