@@ -18,7 +18,7 @@ License: CC-BY-4.0
 
 ## Abstract
 
-We propose a multi-chain, event-driven, push-based API optimized for wallet applications, leveraging the principle that a wallet's state should be a pure function of the blockchain state. This approach eliminates polling strategies and aggregating views, enabling real-time synchronization with the blockchain as new blocks are appended. Our solution addresses key challenges in current wallet implementations, including rollback handling, address discovery and session management for serving stateful clients.
+We propose a multi-chain, event-driven, push-based API optimized for client applications, leveraging the principle that a client's state should be a pure function of the blockchain state. This approach eliminates polling strategies and aggregating views, enabling real-time synchronization with the blockchain as new blocks are appended. Our solution addresses key challenges in current edge clients' implementations, including rollback handling, address discovery and session management for serving stateful clients.
 
 ## Motivation: why is this CIP necessary?
 
@@ -107,7 +107,7 @@ Any cases of server-side failure trigger an error message that is append as sepa
 
 ### Authentication
 
-A newly connected client authenticates as part of the [`subscribe`](./messages/client/subscribe.md) message that is sent to the server to synchronize a specific wallet account up to the chain's current tip. This message must include a **signature** that verifies the ownership of a payment/ stake child private key.
+A newly connected client authenticates as part of the [`subscribe`](./messages/client/subscribe.md) message that is sent to the server to synchronize up to the chain's current tip. This message must include a **signature** that verifies the ownership of a payment/ stake child private key.
 
 The private key serves as **authentication** purpose in our design. Here's how it works:
 
@@ -130,7 +130,7 @@ The credentials also enable efficient querying of client-relevant data:
 
 1. **Indexing Strategy**
 
-   We index transactions by both payment and stake credential. This dual-indexing approach allows for comprehensive transaction tracking.
+   We index transactions by payment and stake credential as well as distinguish between key hash and script hash. This dual-indexing approach allows for comprehensive transaction tracking for different purposes such as dApps or wallets.
 
 2. **BIP32 Wallet Query Process**
 

@@ -115,6 +115,9 @@ Apply a SHA256 HMAC using either the payment signing key or staking signing key,
 
 The signature verifies ownership of the private key, whose corresponding public key is used to filter relevant block transactions.
 
+> [!NOTE]
+> This way of verifying connecting clients works well for wallet uses cases, not for dApps. As dApps cannot sign with a private key since their script address consists of a hash of the script itself. Alternatively, dApps may whitelist connecting clients if the API is exclusive or ask for an API key that is only known for paying clients/ clients with a dedicated account to avoid spam or misuse of third parties.
+
 ## Subscribe Example
 
 ```json
